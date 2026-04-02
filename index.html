@@ -796,6 +796,7 @@ let _pendingDeleteId=null;
 window.confirmDelete=function(docId){ _pendingDeleteId=docId; document.getElementById('delete-modal').classList.add('open'); };
 window.closeDeleteModal=function(){ _pendingDeleteId=null; document.getElementById('delete-modal').classList.remove('open'); };
 window.doDeleteSession=async function(){
+  console.log('uid:', currentUser?.uid, 'pendingId:', _pendingDeleteId);
   if(!_pendingDeleteId) return;
   if(!currentUser){ alert('Utente non autenticato'); return; }
   closeDeleteModal(); setSyncStatus('loading','Eliminazione...');
