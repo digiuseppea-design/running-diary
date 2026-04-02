@@ -795,7 +795,7 @@ window.cancelEdit=function(){ editingDocId=null; resetForm(); document.getElemen
 let _pendingDeleteId=null;
 window.confirmDelete=function(docId){ _pendingDeleteId=docId; document.getElementById('delete-modal').classList.add('open'); };
 window.closeDeleteModal=function(){ _pendingDeleteId=null; document.getElementById('delete-modal').classList.remove('open'); };
-document.getElementById('confirm-delete-btn').addEventListener('click',async()=>{
+window.doDeleteSession=async function(){
   if(!_pendingDeleteId||!currentUser) return;
   closeDeleteModal(); setSyncStatus('loading','Eliminazione...');
   try{
@@ -804,7 +804,7 @@ document.getElementById('confirm-delete-btn').addEventListener('click',async()=>
     setSyncStatus('ok','Sincronizzato'); renderHistory();
   }catch(e){ setSyncStatus('err','Errore'); console.error(e); }
   _pendingDeleteId=null;
-});
+};
 document.getElementById('delete-modal').addEventListener('click',e=>{ if(e.target===e.currentTarget) closeDeleteModal(); });
 
 window.setEnv=function(val,btn){ envValue=val; document.querySelectorAll('#env-toggle button').forEach(b=>b.classList.remove('active')); btn.classList.add('active'); };
