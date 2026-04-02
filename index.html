@@ -525,7 +525,7 @@
 
 <script type="module">
 import { initializeApp } from "https://www.gstatic.com/firebasejs/11.6.0/firebase-app.js";
-import { getFirestore, collection, addDoc, getDocs, deleteDoc, doc, query, orderBy, setDoc, getDoc, updateDoc } from "https://www.gstatic.com/firebasejs/11.6.0/firebase-firestore.js";
+import { getFirestore, collection, addDoc, getDocs, deleteDoc, doc as fbDoc, query, orderBy, setDoc, getDoc, updateDoc } from "https://www.gstatic.com/firebasejs/11.6.0/firebase-firestore.js";
 import { getAuth, GoogleAuthProvider, signInWithPopup, onAuthStateChanged, signOut as fbSignOut } from "https://www.gstatic.com/firebasejs/11.6.0/firebase-auth.js";
 
 const firebaseConfig = {
@@ -570,7 +570,7 @@ let editingDocId=null;
 
 /* ── Firestore paths (per-utente) ── */
 function sessionsCol(){ return collection(db,`users/${currentUser.uid}/sessions`); }
-function profileDoc(){ return doc(db,`users/${currentUser.uid}/profile/data`); }
+function profileDoc(){ return fbDoc(db,`users/${currentUser.uid}/profile/data`); }
 
 /* ── Auth ── */
 window.signInWithGoogle = async function(){
@@ -747,7 +747,7 @@ window.saveSession=async function(){
   };
   try{
     if(editingDocId){
-      await updateDoc(doc(db,`users/${currentUser.uid}/sessions`,editingDocId), sessionData);
+      await updateDoc(fbDoc(db,`users/${currentUser.uid}/sessions`,editingDocId), sessionData);
       const idx=sessions.findIndex(s=>s._docId===editingDocId);
       if(idx>=0) sessions[idx]={...sessionData,_docId:editingDocId};
       setSyncStatus('ok','Aggiornato');
@@ -799,7 +799,7 @@ window.doDeleteSession=async function(){
   if(!_pendingDeleteId||!currentUser) return;
   closeDeleteModal(); setSyncStatus('loading','Eliminazione...');
   try{
-    await deleteDoc(doc(db,`users/${currentUser.uid}/sessions`,_pendingDeleteId));
+    await deleteDoc(fbDoc(db,`users/${currentUser.uid}/sessions`,_pendingDeleteId));
     sessions=sessions.filter(s=>s._docId!==_pendingDeleteId);
     setSyncStatus('ok','Sincronizzato'); renderHistory();
   }catch(e){ setSyncStatus('err','Errore'); console.error(e); }
