@@ -525,7 +525,7 @@
 
 <script type="module">
 import { initializeApp } from "https://www.gstatic.com/firebasejs/11.6.0/firebase-app.js";
-import { getFirestore, collection, addDoc, getDocs, deleteDoc, doc as firestoreDoc, query, orderBy, setDoc, getDoc, updateDoc } from "https://www.gstatic.com/firebasejs/11.6.0/firebase-firestore.js";
+import { getFirestore, collection, addDoc, getDocs, deleteDoc, doc, query, orderBy, setDoc, getDoc, updateDoc } from "https://www.gstatic.com/firebasejs/11.6.0/firebase-firestore.js";
 import { getAuth, GoogleAuthProvider, signInWithPopup, onAuthStateChanged, signOut as fbSignOut } from "https://www.gstatic.com/firebasejs/11.6.0/firebase-auth.js";
 
 const firebaseConfig = {
@@ -795,20 +795,16 @@ window.cancelEdit=function(){ editingDocId=null; resetForm(); document.getElemen
 let _pendingDeleteId=null;
 window.confirmDelete=function(docId){ _pendingDeleteId=docId; document.getElementById('delete-modal').classList.add('open'); };
 window.closeDeleteModal=function(){ _pendingDeleteId=null; document.getElementById('delete-modal').classList.remove('open'); };
-window.doDeleteSession=async function(){
-  console.log('uid:', currentUser?.uid, 'pendingId:', _pendingDeleteId);
-  if(!_pendingDeleteId) return;
-  if(!currentUser){ alert('Utente non autenticato'); return; }
+document.getElementById('confirm-delete-btn').addEventListener('click',async()=>{
+  if(!_pendingDeleteId||!currentUser) return;
   closeDeleteModal(); setSyncStatus('loading','Eliminazione...');
   try{
-    const path = `users/${currentUser.uid}/sessions`;
-    const ref = firestoreDoc(db, path, _pendingDeleteId);
-    await deleteDoc(ref);
+    await deleteDoc(doc(db,`users/${currentUser.uid}/sessions`,_pendingDeleteId));
     sessions=sessions.filter(s=>s._docId!==_pendingDeleteId);
     setSyncStatus('ok','Sincronizzato'); renderHistory();
-  }catch(e){ setSyncStatus('err','Errore'); console.error('DELETE ERROR:', e); }
+  }catch(e){ setSyncStatus('err','Errore'); console.error(e); }
   _pendingDeleteId=null;
-};
+});
 document.getElementById('delete-modal').addEventListener('click',e=>{ if(e.target===e.currentTarget) closeDeleteModal(); });
 
 window.setEnv=function(val,btn){ envValue=val; document.querySelectorAll('#env-toggle button').forEach(b=>b.classList.remove('active')); btn.classList.add('active'); };
