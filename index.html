@@ -1052,8 +1052,8 @@ async function renderWeeklyLoad(sessArr,barsId,goalKm,bikeMode){
   const weekMap={};weeks.forEach(w=>weekMap[w]=0);
   sessArr.forEach(s=>{const w=getWeekMonday(s.date);if(weekMap[w]!==undefined)weekMap[w]+=s.dist;});
   const maxKm=Math.max(...Object.values(weekMap),goalKm,1);
-  const fillColor=bikeMode?BIKE_COLOR:'var(--accent)';
-  const fillColorCurrent=bikeMode?BIKE_COLOR:'var(--green)';
+  const fillColor=bikeMode?BIKE_COLOR:'#008fff';
+  const fillColorCurrent=bikeMode?BIKE_COLOR:'#00c97a';
   document.getElementById(barsId).innerHTML=weeks.map(w=>{
     const km=weekMap[w]||0;const pct=Math.round(km/maxKm*100);
     const isCurrent=w===currentWeek;const isOver=goalKm>0&&km>goalKm*1.1;
