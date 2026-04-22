@@ -290,6 +290,9 @@
   .vdot-cell .vc-time{font-family:var(--font-display);font-size:17px;font-weight:700;color:var(--text);letter-spacing:-.02em;}
   .vdot-cell .vc-pace{font-family:var(--font-mono);font-size:9px;color:var(--text-muted);margin-top:3px;}
   .vdot-note{font-family:var(--font-mono);font-size:9px;color:var(--text-hint);margin-top:10px;line-height:1.6;}
+  .vdot-pb{font-family:var(--font-mono);font-size:9px;color:var(--text-muted);margin-top:4px;display:flex;align-items:center;gap:5px;}
+  .vdot-pb-label{color:var(--text-hint);text-transform:uppercase;letter-spacing:.08em;font-size:8px;}
+  .vdot-pb-val{color:var(--green);font-weight:600;}
 
   /* ── Misc ── */
   .empty-state{text-align:center;padding:4rem 1rem;color:var(--text-muted);}
@@ -1230,7 +1233,31 @@ async function renderProgressRun(){
   document.getElementById('records-label-run').style.display=recs.length?'block':'none';
   document.getElementById('records-grid-run').innerHTML=recs.map(r=>`<div class="record-box"><div class="r-val">${r.val}</div><div class="r-lbl">${r.lbl}</div>${r.sub?`<div class="r-sub">${r.sub}</div>`:''}<div class="r-date">${r.date||''}</div></div>`).join('');
   const vdotBlock=document.getElementById('vdot-block-run');
-  if(vdot){const outdoorN=allRun.filter(s=>s.env!=='indoor'&&s.hr&&s.dist>=3).length;document.getElementById('vdot-score-run').textContent='vDOT '+vdot.toFixed(1);document.getElementById('vdot-grid-run').innerHTML=[{d:5,lbl:'5k'},{d:10,lbl:'10k'},{d:21.097,lbl:'21k'}].map(({d,lbl})=>{const tMin=vdotToTime(vdot,d);const ps=(tMin/d)*60;return`<div class="vdot-cell"><div class="vc-dist">${lbl}</div><div class="vc-time">${fmtRaceTime(tMin)}</div><div class="vc-pace">${fmtPace(ps)} /km</div></div>`;}).join('');document.getElementById('vdot-note-run').textContent='Stima basata su '+outdoorN+' sessioni outdoor con FC · aggiornata automaticamente';vdotBlock.style.display='block';}else{vdotBlock.style.display='none';}
+  if(vdot){
+    const outdoorN=allRun.filter(s=>s.env!=='indoor'&&s.hr&&s.dist>=3).length;
+    document.getElementById('vdot-score-run').textContent='vDOT '+vdot.toFixed(1);
+    // PB: best real session time for each distance bracket
+    // 5k = sessions >= 5km, 10k = >= 10km, 21k = >= 21km (outdoor only)
+    const pbDists=[{d:5,lbl:'5k',min:5},{d:10,lbl:'10k',min:10},{d:21.097,lbl:'21k',min:21}];
+    const outdoorRun=allRun.filter(s=>s.env!=='indoor');
+    document.getElementById('vdot-grid-run').innerHTML=pbDists.map(({d,lbl,min})=>{
+      const tMin=vdotToTime(vdot,d);
+      const ps=(tMin/d)*60;
+      // find best session for this distance: fastest pace on sessions >= min km
+      const candidates=outdoorRun.filter(s=>s.dist>=min&&s.pace);
+      const best=candidates.length?candidates.reduce((a,s)=>s.pace<a.pace?s:a):null;
+      const pbTime=best?(best.pace/60)*d:null; // project best pace onto exact distance
+      const pbStr=pbTime?fmtRaceTime(pbTime):null;
+      return`<div class="vdot-cell">
+        <div class="vc-dist">${lbl}</div>
+        <div class="vc-time">${fmtRaceTime(tMin)}</div>
+        <div class="vc-pace">${fmtPace(ps)} /km</div>
+        ${pbStr?`<div class="vdot-pb"><span class="vdot-pb-label">PB</span><span class="vdot-pb-val">${pbStr}</span></div>`:''}
+      </div>`;
+    }).join('');
+    document.getElementById('vdot-note-run').textContent='Stima basata su '+outdoorN+' sessioni outdoor con FC · aggiornata automaticamente';
+    vdotBlock.style.display='block';
+  }else{vdotBlock.style.display='none';}
   await renderZoneBars(sorted,'zone-bars-run',false);
   destroyRunCharts();
   if(withPace.length>=2){chartPaceRun=new Chart(document.getElementById('chart-pace-run'),{type:'line',data:{labels:withPace.map(s=>fmtDate(s.date)),datasets:[{data:withPace.map(s=>parseFloat((s.pace/60).toFixed(3))),borderColor:typeColor,backgroundColor:typeColor+'18',tension:0.35,fill:true,pointRadius:3,pointHoverRadius:5}]},options:bOpts(true,ctx=>` ${fmtPace(ctx.raw*60)} /km`)});}
