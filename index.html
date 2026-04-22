@@ -1243,10 +1243,11 @@ async function renderProgressRun(){
     document.getElementById('vdot-grid-run').innerHTML=pbDists.map(({d,lbl,min})=>{
       const tMin=vdotToTime(vdot,d);
       const ps=(tMin/d)*60;
-      // find best session for this distance: fastest pace on sessions >= min km
-      const candidates=outdoorRun.filter(s=>s.dist>=min&&s.pace);
+      // PB only if a real session exists within ±10% of the target distance
+      const candidates=outdoorRun.filter(s=>s.dist>=min*0.9&&s.dist<=min*1.1&&s.pace);
       const best=candidates.length?candidates.reduce((a,s)=>s.pace<a.pace?s:a):null;
-      const pbTime=best?(best.pace/60)*d:null; // project best pace onto exact distance
+      // Use actual session time scaled to exact distance
+      const pbTime=best?(best.pace/60)*d:null;
       const pbStr=pbTime?fmtRaceTime(pbTime):null;
       return`<div class="vdot-cell">
         <div class="vc-dist">${lbl}</div>
