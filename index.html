@@ -35,7 +35,7 @@
     /* Corsa type colors */
     --col-z2: #00c97a;        --col-z2-bg: rgba(0,201,122,0.10);
     --col-threshold: #f5c542; --col-threshold-bg: rgba(245,197,66,0.10);
-    --col-interval: #ff4d6d;  --col-interval-bg: rgba(255,77,109,0.10);
+    --col-interval: #008fff;  --col-interval-bg: rgba(0,143,255,0.10);
     --col-long: #4a9eff;      --col-long-bg: rgba(74,158,255,0.10);
     /* Bike type colors — varianti viola */
     --col-bike-end: #a78bfa;      --col-bike-end-bg: rgba(167,139,250,0.10);
@@ -278,12 +278,22 @@
   .msg-success{background:var(--green-bg);color:var(--green);border:1px solid var(--green);}
   .msg-error{background:var(--danger-bg);color:var(--danger);border:1px solid var(--danger);}
 
+  /* ── Interval mode selector ── */
+  .iv-mode-selector{display:none;margin-bottom:14px;}
+  .iv-mode-selector.visible{display:flex;}
+  .iv-mode-selector{background:var(--surface2);border:1px solid var(--border);border-radius:var(--radius-md);padding:3px;gap:3px;}
+  .iv-mode-btn{flex:1;padding:9px 12px;border:none;border-radius:var(--radius-sm);font-family:var(--font-mono);font-size:11px;letter-spacing:.06em;text-transform:uppercase;cursor:pointer;background:transparent;color:var(--text-hint);transition:all .2s;}
+  .iv-mode-btn.active{background:var(--accent);color:#fff;font-weight:700;}
+
+  /* hide simple form fields when interval+dettagliato */
+  .iv-hide{display:none!important;}
+
   /* ── Interval form section ── */
-  .interval-form-block{background:var(--col-interval-bg);border:1px solid rgba(255,77,109,.22);border-radius:var(--radius-lg);padding:14px 15px;margin-bottom:14px;display:none;position:relative;overflow:hidden;}
+  .interval-form-block{background:var(--col-interval-bg);border:1px solid rgba(0,143,255,.22);border-radius:var(--radius-lg);padding:14px 15px;margin-bottom:14px;display:none;position:relative;overflow:hidden;}
   .interval-form-block.visible{display:block;}
   .interval-form-block::before{content:'';position:absolute;top:0;left:0;right:0;height:2px;background:linear-gradient(90deg,var(--col-interval),transparent);}
   .iv-block-title{font-family:var(--font-mono);font-size:9px;letter-spacing:.14em;text-transform:uppercase;color:var(--col-interval);display:flex;align-items:center;gap:7px;margin-bottom:14px;}
-  .iv-block-title-icon{width:20px;height:20px;border-radius:5px;background:rgba(255,77,109,.15);border:1px solid rgba(255,77,109,.25);display:flex;align-items:center;justify-content:center;font-size:11px;flex-shrink:0;}
+  .iv-block-title-icon{width:20px;height:20px;border-radius:5px;background:rgba(0,143,255,.15);border:1px solid rgba(0,143,255,.25);display:flex;align-items:center;justify-content:center;font-size:11px;flex-shrink:0;}
 
   /* Wu/Cd blocks */
   .wucd-form-block{background:var(--surface2);border:1px solid var(--border-strong);border-radius:var(--radius-md);padding:12px 13px;margin-bottom:10px;}
@@ -300,7 +310,7 @@
   .struct-part{flex:1;display:flex;flex-direction:column;align-items:center;padding:10px 6px;gap:3px;border-right:1px solid var(--border);}
   .struct-part:last-child{border-right:none;}
   .struct-part label{font-family:var(--font-mono);font-size:8px;letter-spacing:.1em;text-transform:uppercase;color:var(--text-hint);}
-  .struct-part input{background:transparent;border:none;text-align:center;font-family:var(--font-display);font-size:22px;font-weight:700;color:var(--col-interval);width:100%;outline:none;-moz-appearance:textfield;}
+  .struct-part input{background:transparent;border:none;text-align:center;font-family:var(--font-display);font-size:22px;font-weight:700;color:var(--accent);width:100%;outline:none;-moz-appearance:textfield;}
   .struct-part input::-webkit-outer-spin-button,.struct-part input::-webkit-inner-spin-button{-webkit-appearance:none;}
   .struct-sep{display:flex;align-items:center;padding:0 5px;font-family:var(--font-mono);font-size:14px;font-weight:700;color:var(--text-hint);flex-shrink:0;align-self:center;}
 
@@ -312,15 +322,15 @@
   .rec-form-unit{font-family:var(--font-mono);font-size:10px;color:var(--col-bike-end);}
 
   /* Summary pill */
-  .iv-summary-pill{display:inline-flex;align-items:center;gap:6px;background:rgba(255,77,109,.1);border:1px solid rgba(255,77,109,.2);border-radius:20px;padding:4px 11px;font-family:var(--font-mono);font-size:10px;color:var(--col-interval);margin-bottom:10px;}
+  .iv-summary-pill{display:inline-flex;align-items:center;gap:6px;background:var(--accent-bg);border:1px solid rgba(0,143,255,.25);border-radius:20px;padding:4px 11px;font-family:var(--font-mono);font-size:10px;color:var(--accent);margin-bottom:10px;}
 
   /* Rep grid */
   .rep-grid-hdr{font-family:var(--font-mono);font-size:8px;letter-spacing:.1em;text-transform:uppercase;color:var(--text-hint);display:flex;align-items:center;gap:6px;margin-bottom:8px;}
   .rep-grid-hdr::before,.rep-grid-hdr::after{content:'';flex:1;height:1px;background:var(--border-strong);}
   .rep-grid{display:grid;grid-template-columns:1fr 1fr 1fr;gap:6px;margin-bottom:12px;}
   .rep-cell{background:rgba(0,0,0,.18);border:1px solid var(--border-strong);border-radius:var(--radius-sm);padding:9px 8px 7px;display:flex;flex-direction:column;gap:3px;}
-  .rep-cell label{font-family:var(--font-mono);font-size:8px;letter-spacing:.08em;text-transform:uppercase;color:rgba(255,77,109,.6);}
-  .rep-cell input{background:transparent;border:none;font-family:var(--font-display);font-size:15px;font-weight:700;color:var(--col-interval);width:100%;outline:none;-moz-appearance:textfield;padding:0;}
+  .rep-cell label{font-family:var(--font-mono);font-size:8px;letter-spacing:.08em;text-transform:uppercase;color:rgba(0,143,255,.7);}
+  .rep-cell input{background:transparent;border:none;font-family:var(--font-display);font-size:15px;font-weight:700;color:var(--accent);width:100%;outline:none;-moz-appearance:textfield;padding:0;}
   .rep-cell input::-webkit-outer-spin-button,.rep-cell input::-webkit-inner-spin-button{-webkit-appearance:none;}
   .rep-cell .rep-pace{font-family:var(--font-mono);font-size:8px;color:var(--text-hint);}
   .rep-cell .rep-pace.computed{color:var(--z4);}
@@ -339,7 +349,7 @@
   .iv-recap-divider{height:1px;background:var(--border);margin:7px 0;}
 
   /* Card interval block (storico) */
-  .card-iv-block{background:var(--col-interval-bg);border:1px solid rgba(255,77,109,.2);border-radius:var(--radius-sm);padding:10px 12px;margin-bottom:10px;position:relative;overflow:hidden;}
+  .card-iv-block{background:var(--accent-bg);border:1px solid rgba(0,143,255,.2);border-radius:var(--radius-sm);padding:10px 12px;margin-bottom:10px;position:relative;overflow:hidden;}
   .card-iv-block::before{content:'';position:absolute;left:0;top:0;bottom:0;width:3px;background:var(--col-interval);}
   .civ-hdr{display:flex;align-items:center;gap:7px;margin-bottom:6px;}
   .civ-lbl{font-family:var(--font-mono);font-size:9px;letter-spacing:.1em;text-transform:uppercase;color:var(--col-interval);}
@@ -512,20 +522,26 @@
               <option>Fresco</option><option>Freddo</option><option>Vento</option><option>Pioggia</option>
             </select>
           </div>
-          <div class="form-divider"><div class="form-divider-line"></div><span class="form-divider-label">Performance</span><div class="form-divider-line"></div></div>
-          <div class="field"><label>Distanza (km)</label><input type="number" id="f-run-dist" step="0.1" min="0" placeholder="8.5" inputmode="decimal"/></div>
-          <div class="field"><label>Durata (min)</label><input type="number" id="f-run-dur" step="1" min="0" placeholder="52" inputmode="numeric"/></div>
-          <div class="field"><label>FC media (bpm)</label>
+          <div class="form-divider" id="run-perf-divider"><div class="form-divider-line"></div><span class="form-divider-label">Performance</span><div class="form-divider-line"></div></div>
+          <div class="field" id="run-field-dist"><label>Distanza (km)</label><input type="number" id="f-run-dist" step="0.1" min="0" placeholder="8.5" inputmode="decimal"/></div>
+          <div class="field" id="run-field-dur"><label>Durata (min)</label><input type="number" id="f-run-dur" step="1" min="0" placeholder="52" inputmode="numeric"/></div>
+          <div class="field" id="run-field-hr"><label>FC media (bpm)</label>
             <input type="number" id="f-run-hr" step="1" min="0" placeholder="142" inputmode="numeric" oninput="updateZoneHint(this.value,'run-hr-zone-hint')"/>
             <span class="hint" id="run-hr-zone-hint">—</span>
           </div>
-          <div class="field"><label>FC max sessione</label><input type="number" id="f-run-hrmax" step="1" min="0" placeholder="162" inputmode="numeric"/></div>
-          <div class="field"><label>SPM medi</label>
+          <div class="field" id="run-field-hrmax"><label>FC max sessione</label><input type="number" id="f-run-hrmax" step="1" min="0" placeholder="162" inputmode="numeric"/></div>
+          <div class="field" id="run-field-spm"><label>SPM medi</label>
             <input type="number" id="f-run-spm" step="1" min="0" placeholder="168" inputmode="numeric"/>
             <span class="hint">Target: 170–180 spm</span>
           </div>
-          <div class="field"><label>RPE (1–10)</label><input type="number" id="f-run-rpe" step="1" min="1" max="10" placeholder="6" inputmode="numeric"/></div>
-          <div class="field full"><label>Note</label><textarea id="f-run-notes" placeholder="Sensazioni, dolori, osservazioni..."></textarea></div>
+          <div class="field" id="run-field-rpe"><label>RPE (1–10)</label><input type="number" id="f-run-rpe" step="1" min="1" max="10" placeholder="6" inputmode="numeric"/></div>
+          <div class="field full" id="run-field-notes"><label>Note</label><textarea id="f-run-notes" placeholder="Sensazioni, dolori, osservazioni..."></textarea></div>
+        </div>
+
+        <!-- ═══ SELETTORE BASE / DETTAGLIATO ═══ -->
+        <div class="iv-mode-selector" id="iv-mode-selector">
+          <button class="iv-mode-btn active" id="iv-btn-base" onclick="setIvMode('base')">Base</button>
+          <button class="iv-mode-btn" id="iv-btn-detail" onclick="setIvMode('detail')">Dettagliato</button>
         </div>
 
         <!-- ═══ SEZIONE INTERVALLI (visibile solo se tipo = interval) ═══ -->
@@ -586,6 +602,32 @@
             <div class="wucd-fields">
               <div class="field" style="margin:0;"><label>Durata (min)</label><input type="number" id="f-cd-dur" step="1" min="0" placeholder="8" inputmode="numeric" oninput="onIvRecapChange()"/></div>
               <div class="field" style="margin:0;"><label>Distanza (km)</label><input type="number" id="f-cd-dist" step="0.1" min="0" placeholder="0.8" inputmode="decimal" oninput="onIvRecapChange()"/></div>
+            </div>
+          </div>
+
+          <!-- FC / SPM / RPE / Note nel form dettagliato -->
+          <div class="form-grid" style="margin-bottom:12px;">
+            <div class="field">
+              <label>FC media sess. (bpm)</label>
+              <input type="number" id="f-iv-hr" step="1" min="0" placeholder="154" inputmode="numeric" oninput="updateZoneHint(this.value,'iv-hr-zone-hint')"/>
+              <span class="hint" id="iv-hr-zone-hint">—</span>
+            </div>
+            <div class="field">
+              <label>FC max sessione</label>
+              <input type="number" id="f-iv-hrmax" step="1" min="0" placeholder="182" inputmode="numeric"/>
+            </div>
+            <div class="field">
+              <label>SPM medi</label>
+              <input type="number" id="f-iv-spm" step="1" min="0" placeholder="174" inputmode="numeric"/>
+              <span class="hint">Target: 170–180 spm</span>
+            </div>
+            <div class="field">
+              <label>RPE (1–10)</label>
+              <input type="number" id="f-iv-rpe" step="1" min="1" max="10" placeholder="7" inputmode="numeric"/>
+            </div>
+            <div class="field full">
+              <label>Note</label>
+              <textarea id="f-iv-notes" placeholder="Sensazioni, dolori, osservazioni..."></textarea>
             </div>
           </div>
 
@@ -950,7 +992,21 @@ function setRunEnvDirect(val){runEnvValue=val;document.querySelectorAll('#run-en
 function setBikeEnvDirect(val){bikeEnvValue=val;document.querySelectorAll('#bike-env-toggle button').forEach(b=>b.classList.toggle('active',b.dataset.val===val));document.getElementById('bike-field-cond').style.display=val==='indoor'?'none':'';}
 
 /* ── Interval form state ── */
-let wuMode='run', cdMode='walk';
+let wuMode='run', cdMode='walk', ivMode='base';
+
+window.setIvMode=function(mode){
+  ivMode=mode;
+  document.getElementById('iv-btn-base').className='iv-mode-btn'+(mode==='base'?' active':'');
+  document.getElementById('iv-btn-detail').className='iv-mode-btn'+(mode==='detail'?' active':'');
+  const hideIds=['run-field-dist','run-field-dur','run-field-hr','run-field-hrmax',
+                 'run-field-spm','run-field-rpe','run-field-notes','run-perf-divider'];
+  hideIds.forEach(id=>{
+    const el=document.getElementById(id);
+    if(!el)return;
+    if(mode==='detail')el.classList.add('iv-hide');
+    else el.classList.remove('iv-hide');
+  });
+};
 
 window.setWuMode=function(m){
   wuMode=m;
@@ -969,8 +1025,15 @@ window.setCdMode=function(m){
 function updateIvVisibility(){
   const t=document.getElementById('f-run-type').value;
   const blk=document.getElementById('interval-form-block');
-  if(t==='interval')blk.classList.add('visible');
-  else blk.classList.remove('visible');
+  const sel=document.getElementById('iv-mode-selector');
+  if(t==='interval'){
+    blk.classList.add('visible');
+    sel.classList.add('visible');
+  }else{
+    blk.classList.remove('visible');
+    sel.classList.remove('visible');
+    setIvMode('base');
+  }
 }
 document.getElementById('f-run-type').addEventListener('change',updateIvVisibility);
 
@@ -1067,13 +1130,33 @@ window.saveSession=async function(sport){
   const pfx=isRun?'run':'bike';
   const dateEl=document.getElementById(isRun?'f-date':'f-bike-date');
   const date=dateEl.value;
-  const dist=parseFloat(document.getElementById(`f-${pfx}-dist`).value);
-  const dur=parseFloat(document.getElementById(`f-${pfx}-dur`).value);
-  if(!date||isNaN(dist)||isNaN(dur)||dist<=0||dur<=0){alert('Inserisci almeno data, distanza e durata.');return;}
+  const useIvFieldsEarly=isRun&&document.getElementById('f-run-type').value==='interval'&&ivMode==='detail';
+  let dist,dur;
+  if(useIvFieldsEarly){
+    // compute from interval recap: wu + reps + cd
+    const reps=parseInt(document.getElementById('f-iv-reps').value)||0;
+    const repDurV=parseFloat(document.getElementById('f-iv-rep-dur').value)||0;
+    const recDurV=parseFloat(document.getElementById('f-iv-rec-dur').value)||0;
+    const wuDurV=parseFloat(document.getElementById('f-wu-dur').value)||0;
+    const cdDurV=parseFloat(document.getElementById('f-cd-dur').value)||0;
+    const wuDistV=parseFloat(document.getElementById('f-wu-dist').value)||0;
+    const cdDistV=parseFloat(document.getElementById('f-cd-dist').value)||0;
+    let repDistTotal=0;
+    for(let i=1;i<=reps;i++){repDistTotal+=parseFloat(document.getElementById('f-rep-'+i)?.value)||0;}
+    dist=parseFloat((wuDistV+repDistTotal+cdDistV).toFixed(2));
+    dur=Math.round(wuDurV+(reps*repDurV)+(Math.max(reps-1,0)*recDurV)+cdDurV);
+    if(!reps||!repDurV){alert('Inserisci almeno ripetute e durata rep.');return;}
+  }else{
+    dist=parseFloat(document.getElementById(`f-${pfx}-dist`).value);
+    dur=parseFloat(document.getElementById(`f-${pfx}-dur`).value);
+    if(!date||isNaN(dist)||isNaN(dur)||dist<=0||dur<=0){alert('Inserisci almeno data, distanza e durata.');return;}
+  }
   const btn=document.getElementById(`save-btn-${pfx}`);btn.disabled=true;
   setSyncStatus('loading',editingDocId?'Aggiornamento...':'Salvataggio...');
   const type=document.getElementById(isRun?'f-run-type':'f-bike-type').value;
-  const hrVal=parseInt(document.getElementById(`f-${pfx}-hr`).value)||null;
+  // when interval+dettagliato, use iv-specific fields for hr/spm/rpe/notes
+  const useIvFields=isRun&&type==='interval'&&ivMode==='detail';
+  const hrVal=parseInt(document.getElementById(useIvFields?'f-iv-hr':`f-${pfx}-hr`).value)||null;
   const p=await getProfile();const zones=calcZones(p.hrmax,p.hrrest);const zone=hrVal?hrToZone(hrVal,zones):null;
   const env=isRun?runEnvValue:bikeEnvValue;
   const sessionData={
@@ -1081,12 +1164,12 @@ window.saveSession=async function(sport){
     sport,date,type,env,
     cond:env==='outdoor'?(document.getElementById(`f-${pfx}-cond`).value||null):null,
     dist,dur,hr:hrVal,
-    hrmax:parseInt(document.getElementById(`f-${pfx}-hrmax`).value)||null,
-    spm:isRun?(parseInt(document.getElementById('f-run-spm').value)||null):null,
+    hrmax:parseInt(document.getElementById(useIvFields?'f-iv-hrmax':`f-${pfx}-hrmax`).value)||null,
+    spm:isRun?(parseInt(document.getElementById(useIvFields?'f-iv-spm':'f-run-spm').value)||null):null,
     rpm:!isRun?(parseInt(document.getElementById('f-bike-rpm').value)||null):null,
     watt:!isRun?(parseInt(document.getElementById('f-bike-watt').value)||null):null,
-    rpe:parseInt(document.getElementById(`f-${pfx}-rpe`).value)||null,
-    notes:document.getElementById(`f-${pfx}-notes`).value.trim()||null,
+    rpe:parseInt(document.getElementById(useIvFields?'f-iv-rpe':`f-${pfx}-rpe`).value)||null,
+    notes:document.getElementById(useIvFields?'f-iv-notes':`f-${pfx}-notes`).value.trim()||null,
     pace:isRun?paceSecFromDistDur(dist,dur):null,
     zone,
     intervals:(isRun&&type==='interval')?(()=>{
@@ -1137,15 +1220,15 @@ function resetForm(sport){
     document.getElementById('f-run-cond').value='';document.getElementById('f-run-type').value='z2';document.getElementById('f-date').value=today();
     setRunEnvDirect('outdoor');document.getElementById('run-hr-zone-hint').textContent='—';
     // reset interval block
-    ['f-iv-reps','f-iv-rep-dur','f-iv-rec-dur','f-wu-dur','f-wu-dist','f-cd-dur','f-cd-dist'].forEach(id=>{const el=document.getElementById(id);if(el)el.value='';});
+    ['f-iv-reps','f-iv-rep-dur','f-iv-rec-dur','f-wu-dur','f-wu-dist','f-cd-dur','f-cd-dist','f-iv-hr','f-iv-hrmax','f-iv-spm','f-iv-rpe','f-iv-notes'].forEach(id=>{const el=document.getElementById(id);if(el)el.value='';});
     document.getElementById('rep-grid').innerHTML='';
     document.getElementById('rep-grid-hdr').style.display='none';
     document.getElementById('iv-summary-pill').textContent='Inserisci ripetute e durata';
     document.getElementById('iv-recap').style.display='none';
     document.getElementById('iv-rec-count').textContent='0';
     document.getElementById('interval-form-block').classList.remove('visible');
-    wuMode='run';cdMode='walk';
-    setWuMode('run');setCdMode('walk');
+    wuMode='run';cdMode='walk';ivMode='base';
+    setWuMode('run');setCdMode('walk');setIvMode('base');
   }else{
     ['f-bike-dist','f-bike-dur','f-bike-hr','f-bike-hrmax','f-bike-rpm','f-bike-watt','f-bike-rpe','f-bike-notes'].forEach(id=>{const el=document.getElementById(id);if(el)el.value='';});
     document.getElementById('f-bike-cond').value='';document.getElementById('f-bike-type').value='bike-end';document.getElementById('f-bike-date').value=today();
@@ -1181,6 +1264,14 @@ window.editSession=function(docId){
       if(iv.cdDist)document.getElementById('f-cd-dist').value=iv.cdDist;
       if(iv.wuMode){wuMode=iv.wuMode;setWuMode(iv.wuMode);}
       if(iv.cdMode){cdMode=iv.cdMode;setCdMode(iv.cdMode);}
+      // restore detail mode and its fields
+      ivMode='detail';setIvMode('detail');
+      document.getElementById('iv-mode-selector').classList.add('visible');
+      if(s.hr)document.getElementById('f-iv-hr').value=s.hr;
+      if(s.hrmax)document.getElementById('f-iv-hrmax').value=s.hrmax;
+      if(s.spm)document.getElementById('f-iv-spm').value=s.spm;
+      if(s.rpe)document.getElementById('f-iv-rpe').value=s.rpe;
+      if(s.notes)document.getElementById('f-iv-notes').value=s.notes;
       onIvStructChange();
       if(iv.repDists){iv.repDists.forEach((d,i)=>{const el=document.getElementById('f-rep-'+(i+1));if(el&&d){el.value=d;onRepDistChange(i+1);}});}
     }
