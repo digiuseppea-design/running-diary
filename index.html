@@ -1058,13 +1058,9 @@ function calcSessionVDOT(dist,dur,hr,profile){
   const v=(dist*1000)/dur;
   const vo2=vdotVO2(v);
   const pct=vdotPct(v,dur);
-  let vd=vo2/pct;
-  if(hr&&profile&&profile.hrmax&&profile.hrrest){
-    const hrr=profile.hrmax-profile.hrrest;
-    const eff=(hr-profile.hrrest)/hrr;
-    const rel=Math.max(0,Math.min(1,1-Math.abs(eff-0.825)/0.175));
-    vd=vd*(0.7+0.3*rel);
-  }
+  const vd=vo2/pct;
+  // No FC correction — it introduces noise. Pure pace-based vDOT is more reliable
+  // for manual session data without GPS second-by-second tracking.
   return Math.max(20,Math.min(85,vd));
 }
 function vdotToTime(vdot,distKm){
@@ -1082,15 +1078,35 @@ function fmtRaceTime(min){
   return`${m}' ${pad(s)}"`;
 }
 function calcVDOT(allRun,profile){
-  const el=allRun.filter(s=>s.env!=='indoor'&&s.hr&&s.dist>=3&&s.dur>=10);
-  if(!el.length)return null;
-  const tw={threshold:3,long:2,z2:1,interval:1.5};
-  const recent=el.slice(-8);
+  // Solo threshold e long run outdoor con distanza >= 4km
+  // Z2 e intervalli distorcono il calcolo (passo troppo lento o diluito dai recuperi)
+  const el=allRun.filter(s=>
+    s.env!=='indoor' &&
+    (s.type==='threshold'||s.type==='long') &&
+    s.dist>=4 &&
+    s.dur>=15
+  );
+  if(!el.length){
+    // fallback: qualsiasi outdoor con dist>=5km se non ci sono threshold/long
+    const fallback=allRun.filter(s=>s.env!=='indoor'&&s.dist>=5&&s.dur>=20);
+    if(!fallback.length)return null;
+    const recent=fallback.slice(-5);
+    let sw=0,sv=0;
+    recent.forEach((s,i)=>{
+      const vd=calcSessionVDOT(s.dist,s.dur,s.hr,profile);
+      if(!vd)return;
+      const w=0.5+0.5*(i+1)/recent.length;
+      sv+=vd*w;sw+=w;
+    });
+    return sw?sv/sw:null;
+  }
+  const tw={threshold:3,long:2};
+  const recent=el.slice(-6);
   let sumW=0,sumVD=0;
   recent.forEach((s,i)=>{
     const vd=calcSessionVDOT(s.dist,s.dur,s.hr,profile);
     if(!vd)return;
-    const w=(tw[s.type]||1.5)*(0.5+0.5*(i+1)/recent.length);
+    const w=(tw[s.type]||2)*(0.5+0.5*(i+1)/recent.length);
     sumVD+=vd*w;sumW+=w;
   });
   return sumW?sumVD/sumW:null;
