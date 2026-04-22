@@ -1079,37 +1079,34 @@ function fmtRaceTime(min){
 }
 function calcVDOT(allRun,profile){
   // Solo threshold e long run outdoor con distanza >= 4km
-  // Z2 e intervalli distorcono il calcolo (passo troppo lento o diluito dai recuperi)
   const el=allRun.filter(s=>
     s.env!=='indoor' &&
     (s.type==='threshold'||s.type==='long') &&
     s.dist>=4 &&
     s.dur>=15
   );
-  if(!el.length){
-    // fallback: qualsiasi outdoor con dist>=5km se non ci sono threshold/long
-    const fallback=allRun.filter(s=>s.env!=='indoor'&&s.dist>=5&&s.dur>=20);
-    if(!fallback.length)return null;
-    const recent=fallback.slice(-5);
-    let sw=0,sv=0;
-    recent.forEach((s,i)=>{
-      const vd=calcSessionVDOT(s.dist,s.dur,s.hr,profile);
-      if(!vd)return;
-      const w=0.5+0.5*(i+1)/recent.length;
-      sv+=vd*w;sw+=w;
-    });
-    return sw?sv/sw:null;
+  const pool = el.length ? el : allRun.filter(s=>s.env!=='indoor'&&s.dist>=5&&s.dur>=20);
+  if(!pool.length)return null;
+  // Calcola vDOT per ogni sessione disponibile
+  const vdots=pool.map(s=>({vd:calcSessionVDOT(s.dist,s.dur,s.hr,profile),date:s.date}))
+    .filter(x=>x.vd).sort((a,b)=>a.date.localeCompare(b.date));
+  if(!vdots.length)return null;
+  // Se l'ultima sessione è significativamente migliore delle precedenti
+  // (miglioramento >15%) usala quasi esclusivamente — indica progresso reale
+  const last=vdots[vdots.length-1].vd;
+  if(vdots.length>=2){
+    const prev=vdots.slice(0,-1).reduce((a,x)=>a+x.vd,0)/vdots.slice(0,-1).length;
+    if(last>prev*1.10){
+      // Progresso significativo: ultima sessione pesa 90%
+      return last*0.90 + prev*0.10;
+    }
   }
-  const tw={threshold:3,long:2};
-  const recent=el.slice(-6);
-  let sumW=0,sumVD=0;
-  recent.forEach((s,i)=>{
-    const vd=calcSessionVDOT(s.dist,s.dur,s.hr,profile);
-    if(!vd)return;
-    const w=(tw[s.type]||2)*(0.5+0.5*(i+1)/recent.length);
-    sumVD+=vd*w;sumW+=w;
-  });
-  return sumW?sumVD/sumW:null;
+  // Altrimenti: ultime 3 con peso esponenziale 10/25/65%
+  const recent=vdots.slice(-3);
+  const w=[0.10,0.25,0.65].slice(3-recent.length);
+  let sw=0,sv=0;
+  recent.forEach((x,i)=>{sv+=x.vd*w[i];sw+=w[i];});
+  return sv/sw;
 }
 
 /* ── Records ── */
