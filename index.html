@@ -1058,9 +1058,17 @@ function calcSessionVDOT(dist,dur,hr,profile){
   const v=(dist*1000)/dur;
   const vo2=vdotVO2(v);
   const pct=vdotPct(v,dur);
-  const vd=vo2/pct;
-  // No FC correction — it introduces noise. Pure pace-based vDOT is more reliable
-  // for manual session data without GPS second-by-second tracking.
+  let vd=vo2/pct;
+  // FC correction: conservative ±5% max, only when profile HR data available
+  // Logic: if effort% vs HRR was below threshold target (85%), runner had more margin → vDOT slightly higher
+  // If above threshold, runner was pushing harder than expected → vDOT slightly lower
+  if(hr&&profile&&profile.hrmax>100&&profile.hrrest>0){
+    const hrr=profile.hrmax-profile.hrrest;
+    const effortPct=(hr-profile.hrrest)/hrr;
+    const delta=0.85-effortPct; // positive = below target = more margin
+    const correction=Math.max(0.95,Math.min(1.05,1.0+delta*0.25));
+    vd=vd*correction;
+  }
   return Math.max(20,Math.min(85,vd));
 }
 function vdotToTime(vdot,distKm){
