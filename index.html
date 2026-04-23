@@ -497,7 +497,8 @@
 
       <!-- ── FORM CORSA ── -->
       <div id="log-form-run">
-        <div class="form-grid">
+        <!-- Campi comuni: data, tipo, ambiente, meteo — sempre visibili -->
+        <div class="form-grid" style="margin-bottom:0;">
           <div class="field"><label>Data</label><input type="date" id="f-date"/></div>
           <div class="field"><label>Tipo allenamento</label>
             <select id="f-run-type">
@@ -520,6 +521,16 @@
               <option>Fresco</option><option>Freddo</option><option>Vento</option><option>Pioggia</option>
             </select>
           </div>
+        </div>
+
+        <!-- SELETTORE BASE / DETTAGLIATO — appare solo per intervalli -->
+        <div class="iv-mode-selector" id="iv-mode-selector">
+          <button class="iv-mode-btn active" id="iv-btn-base" onclick="setIvMode('base')">Base</button>
+          <button class="iv-mode-btn" id="iv-btn-detail" onclick="setIvMode('detail')">Dettagliato</button>
+        </div>
+
+        <!-- FORM BASE: distanza, durata, FC, SPM, RPE, note -->
+        <div class="form-grid" id="run-base-form">
           <div class="form-divider" id="run-perf-divider"><div class="form-divider-line"></div><span class="form-divider-label">Performance</span><div class="form-divider-line"></div></div>
           <div class="field" id="run-field-dist"><label>Distanza (km)</label><input type="number" id="f-run-dist" step="0.1" min="0" placeholder="8.5" inputmode="decimal"/></div>
           <div class="field" id="run-field-dur"><label>Durata (min)</label><input type="number" id="f-run-dur" step="1" min="0" placeholder="52" inputmode="numeric"/></div>
@@ -534,12 +545,6 @@
           </div>
           <div class="field" id="run-field-rpe"><label>RPE (1–10)</label><input type="number" id="f-run-rpe" step="1" min="1" max="10" placeholder="6" inputmode="numeric"/></div>
           <div class="field full" id="run-field-notes"><label>Note</label><textarea id="f-run-notes" placeholder="Sensazioni, dolori, osservazioni..."></textarea></div>
-        </div>
-
-        <!-- SELETTORE BASE / DETTAGLIATO -->
-        <div class="iv-mode-selector" id="iv-mode-selector">
-          <button class="iv-mode-btn active" id="iv-btn-base" onclick="setIvMode('base')">Base</button>
-          <button class="iv-mode-btn" id="iv-btn-detail" onclick="setIvMode('detail')">Dettagliato</button>
         </div>
 
         <!-- FORM INTERVALLI DETTAGLIATO -->
@@ -980,10 +985,17 @@ window.setIvMode=function(mode){
   ivMode=mode;
   document.getElementById('iv-btn-base').className='iv-mode-btn'+(mode==='base'?' active':'');
   document.getElementById('iv-btn-detail').className='iv-mode-btn'+(mode==='detail'?' active':'');
-  ['run-field-dist','run-field-dur','run-field-hr','run-field-hrmax','run-field-spm','run-field-rpe','run-field-notes','run-perf-divider'].forEach(id=>{
-    const el=document.getElementById(id);if(!el)return;
-    if(mode==='detail')el.classList.add('iv-hide');else el.classList.remove('iv-hide');
-  });
+  // In dettagliato: nascondi form base, mostra form intervalli
+  // In base: mostra form base, nascondi form intervalli
+  const baseForm=document.getElementById('run-base-form');
+  const ivForm=document.getElementById('interval-form-block');
+  if(mode==='detail'){
+    if(baseForm)baseForm.style.display='none';
+    if(ivForm)ivForm.classList.add('visible');
+  }else{
+    if(baseForm)baseForm.style.display='';
+    if(ivForm)ivForm.classList.remove('visible');
+  }
 };
 window.setWuMode=function(m){
   wuMode=m;
@@ -999,10 +1011,18 @@ window.setCdMode=function(m){
 };
 function updateIvVisibility(){
   const t=document.getElementById('f-run-type').value;
-  const blk=document.getElementById('interval-form-block');
   const sel=document.getElementById('iv-mode-selector');
-  if(t==='interval'){blk.classList.add('visible');sel.classList.add('visible');}
-  else{blk.classList.remove('visible');sel.classList.remove('visible');setIvMode('base');}
+  const baseForm=document.getElementById('run-base-form');
+  const ivForm=document.getElementById('interval-form-block');
+  if(t==='interval'){
+    sel.classList.add('visible');
+    // Apply current ivMode (default: base = mostra form base, nascondi iv)
+    setIvMode(ivMode);
+  }else{
+    sel.classList.remove('visible');
+    if(baseForm)baseForm.style.display='';
+    if(ivForm)ivForm.classList.remove('visible');
+  }
 }
 document.getElementById('f-run-type').addEventListener('change',updateIvVisibility);
 
@@ -1166,7 +1186,8 @@ function resetForm(sport){
     document.getElementById('iv-rec-count').textContent='0';
     document.getElementById('interval-form-block').classList.remove('visible');
     document.getElementById('iv-mode-selector').classList.remove('visible');
-    wuMode='run';cdMode='walk';ivMode='base';setIvMode('base');setWuMode('run');setCdMode('walk');
+    const bf=document.getElementById('run-base-form');if(bf)bf.style.display='';
+    wuMode='run';cdMode='walk';ivMode='base';setWuMode('run');setCdMode('walk');
     document.getElementById('f-run-cond').value='';document.getElementById('f-run-type').value='z2';document.getElementById('f-date').value=today();
     setRunEnvDirect('outdoor');document.getElementById('run-hr-zone-hint').textContent='—';
   }else{
