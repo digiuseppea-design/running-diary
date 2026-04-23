@@ -1042,13 +1042,13 @@ window.setCdMode=function(m){
   document.getElementById('cd-mode-walk').className='mode-btn'+(m==='walk'?' walk-on':'');
   onIvRecapChange();accSummaries();
 };
-function updateIvVisibility(){
+window.updateIvVisibility=function(){
   const t=document.getElementById('f-run-type').value;
   const blk=document.getElementById('interval-form-block');
   const sel=document.getElementById('iv-mode-selector');
   if(t==='interval'){blk.style.display='block';sel.classList.add('visible');}
   else{blk.style.display='none';sel.classList.remove('visible');setIvMode('base');}
-}
+};
 document.getElementById('f-run-type').addEventListener('change',updateIvVisibility);
 
 window.onIvStructChange=function(){
@@ -1168,6 +1168,7 @@ window.saveSession=async function(sport){
   const pfx=isRun?'run':'bike';
   const dateEl=document.getElementById(isRun?'f-date':'f-bike-date');
   const date=dateEl.value;
+  const type=document.getElementById(isRun?'f-run-type':'f-bike-type').value;
   const useIvDetail=isRun&&type==='interval'&&ivMode==='detail';
   let dist,dur;
   if(useIvDetail){
@@ -1189,8 +1190,7 @@ window.saveSession=async function(sport){
   }
   const btn=document.getElementById(`save-btn-${pfx}`);btn.disabled=true;
   setSyncStatus('loading',editingDocId?'Aggiornamento...':'Salvataggio...');
-  const type=document.getElementById(isRun?'f-run-type':'f-bike-type').value;
-  const useIvFields=isRun&&type==='interval'&&ivMode==='detail';
+    const useIvFields=isRun&&type==='interval'&&ivMode==='detail';
   const hrVal=parseInt(document.getElementById(useIvFields?'f-iv-hr':`f-${pfx}-hr`).value)||null;
   const p=await getProfile();const zones=calcZones(p.hrmax,p.hrrest);const zone=hrVal?hrToZone(hrVal,zones):null;
   const env=isRun?runEnvValue:bikeEnvValue;
