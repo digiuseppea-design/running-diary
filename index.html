@@ -1025,10 +1025,16 @@ window.setIvMode=function(mode){
   ivMode=mode;
   document.getElementById('iv-btn-base').className='iv-mode-btn'+(mode==='base'?' active':'');
   document.getElementById('iv-btn-detail').className='iv-mode-btn'+(mode==='detail'?' active':'');
-  ['run-field-dist','run-field-dur','run-field-hr','run-field-hrmax','run-field-spm','run-field-rpe','run-field-notes','run-perf-divider'].forEach(id=>{
-    const el=document.getElementById(id);if(!el)return;
-    if(mode==='detail')el.classList.add('iv-hide');else el.classList.remove('iv-hide');
-  });
+  const baseForm=document.getElementById('run-base-form');
+  const ivForm=document.getElementById('interval-form-block');
+  if(mode==='detail'){
+    if(baseForm)baseForm.style.display='none';
+    if(ivForm)ivForm.style.display='block';
+  }else{
+    if(baseForm)baseForm.style.display='';
+    if(ivForm)ivForm.style.display='none';
+  }
+  checkRunSave();
 };
 window.setWuMode=function(m){
   wuMode=m;
@@ -1046,8 +1052,18 @@ window.updateIvVisibility=function(){
   const t=document.getElementById('f-run-type').value;
   const blk=document.getElementById('interval-form-block');
   const sel=document.getElementById('iv-mode-selector');
-  if(t==='interval'){blk.style.display='block';sel.classList.add('visible');}
-  else{blk.style.display='none';sel.classList.remove('visible');setIvMode('base');}
+  const baseForm=document.getElementById('run-base-form');
+  if(t==='interval'){
+    sel.classList.add('visible');
+    setIvMode(ivMode);
+  }else{
+    sel.classList.remove('visible');
+    if(blk)blk.style.display='none';
+    if(baseForm)baseForm.style.display='';
+    ivMode='base';
+    document.getElementById('iv-btn-base').className='iv-mode-btn active';
+    document.getElementById('iv-btn-detail').className='iv-mode-btn';
+  }
 };
 document.getElementById('f-run-type').addEventListener('change',updateIvVisibility);
 
@@ -1190,7 +1206,7 @@ window.saveSession=async function(sport){
   }
   const btn=document.getElementById(`save-btn-${pfx}`);btn.disabled=true;
   setSyncStatus('loading',editingDocId?'Aggiornamento...':'Salvataggio...');
-    const useIvFields=isRun&&type==='interval'&&ivMode==='detail';
+  const useIvFields=isRun&&type==='interval'&&ivMode==='detail';
   const hrVal=parseInt(document.getElementById(useIvFields?'f-iv-hr':`f-${pfx}-hr`).value)||null;
   const p=await getProfile();const zones=calcZones(p.hrmax,p.hrrest);const zone=hrVal?hrToZone(hrVal,zones):null;
   const env=isRun?runEnvValue:bikeEnvValue;
