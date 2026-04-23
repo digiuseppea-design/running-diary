@@ -294,35 +294,15 @@
   .vdot-pb-label{color:var(--text-hint);text-transform:uppercase;letter-spacing:.08em;font-size:8px;}
   .vdot-pb-val{color:var(--green);font-weight:600;}
 
-  /* ── Accordion ── */
-  .acc-block{background:var(--surface);border:1px solid var(--border-strong);border-radius:var(--radius-lg);overflow:hidden;margin-bottom:8px;}
-  .acc-hdr{display:flex;align-items:center;gap:10px;padding:13px 15px;cursor:pointer;transition:background .12s;user-select:none;}
-  .acc-hdr:hover{background:var(--surface2);}
-  .acc-num{width:20px;height:20px;border-radius:50%;background:var(--accent-bg);border:1px solid var(--accent-bg2);display:flex;align-items:center;justify-content:center;font-family:var(--font-mono);font-size:9px;font-weight:700;color:var(--accent);flex-shrink:0;}
-  .acc-num.done{background:var(--green-bg);border-color:rgba(0,201,122,.3);color:var(--green);}
-  .acc-titles{flex:1;min-width:0;}
-  .acc-title{font-size:14px;font-weight:500;color:var(--text);}
-  .acc-summary{font-family:var(--font-mono);font-size:10px;color:var(--text-muted);margin-top:2px;white-space:nowrap;overflow:hidden;text-overflow:ellipsis;}
-  .acc-arr{font-family:var(--font-mono);font-size:14px;color:var(--text-hint);transition:transform .2s;flex-shrink:0;}
-  .acc-arr.open{transform:rotate(45deg);}
-  .acc-body{display:none;padding:14px 15px;border-top:1px solid var(--border);}
-  .acc-body.open{display:block;}
-  .acc-sep{height:1px;background:var(--border);margin:12px 0;}
-  .acc-lbl{font-family:var(--font-mono);font-size:8px;letter-spacing:.14em;text-transform:uppercase;color:var(--text-hint);margin-bottom:10px;display:block;}
-  .btn-save-run{width:100%;padding:14px;border:none;border-radius:var(--radius-md);font-family:var(--font-mono);font-size:12px;font-weight:700;letter-spacing:.06em;cursor:pointer;margin-top:4px;transition:all .2s;}
-  .btn-save-run.ready{background:var(--accent);color:#fff;}
-  .btn-save-run.not-ready{background:var(--surface2);color:var(--text-hint);border:1px solid var(--border-strong);}
-  .save-toast{font-family:var(--font-mono);font-size:10px;color:var(--text-hint);text-align:center;margin-top:6px;min-height:14px;}
-
   /* ── Interval mode selector ── */
-  .iv-mode-selector{display:none;margin-bottom:14px;background:var(--surface2);border:1px solid var(--border);border-radius:var(--radius-md);padding:3px;gap:3px;}
+  .iv-mode-selector{display:none;margin-top:14px;margin-bottom:14px;background:var(--surface2);border:1px solid var(--border);border-radius:var(--radius-md);padding:3px;gap:3px;}
   .iv-mode-selector.visible{display:flex;}
   .iv-mode-btn{flex:1;padding:9px 12px;border:none;border-radius:var(--radius-sm);font-family:var(--font-mono);font-size:11px;letter-spacing:.06em;text-transform:uppercase;cursor:pointer;background:transparent;color:var(--text-hint);transition:all .2s;}
   .iv-mode-btn.active{background:var(--accent);color:#fff;font-weight:700;}
   .iv-hide{display:none!important;}
   /* Interval form block */
-  .interval-form-block{background:var(--accent-bg);border:1px solid rgba(0,143,255,.22);border-radius:var(--radius-lg);padding:14px 15px;margin-bottom:14px;display:none;position:relative;overflow:hidden;}
-  .interval-form-block.visible{display:block;}
+  .interval-form-block{background:var(--accent-bg);border:1px solid rgba(0,143,255,.22);border-radius:var(--radius-lg);padding:14px 15px;margin-bottom:14px;position:relative;overflow:hidden;}
+  
   .interval-form-block::before{content:'';position:absolute;top:0;left:0;right:0;height:2px;background:linear-gradient(90deg,var(--accent),transparent);}
   .iv-block-title{font-family:var(--font-mono);font-size:9px;letter-spacing:.14em;text-transform:uppercase;color:var(--accent);display:flex;align-items:center;gap:7px;margin-bottom:14px;}
   .iv-block-title-icon{width:20px;height:20px;border-radius:5px;background:rgba(0,143,255,.15);border:1px solid rgba(0,143,255,.25);display:flex;align-items:center;justify-content:center;font-size:11px;flex-shrink:0;}
@@ -387,6 +367,26 @@
   .card-sep{display:flex;align-items:center;gap:6px;margin:8px 0;}
   .card-sep-line{flex:1;height:1px;background:var(--border);}
   .card-sep-lbl{font-family:var(--font-mono);font-size:8px;letter-spacing:.09em;text-transform:uppercase;color:var(--text-hint);}
+
+  /* ── Accordion ── */
+  .acc-block{background:var(--surface);border:1px solid var(--border-strong);border-radius:var(--radius-lg);overflow:hidden;margin-bottom:8px;}
+  .acc-hdr{display:flex;align-items:center;gap:10px;padding:13px 15px;cursor:pointer;transition:background .12s;user-select:none;}
+  .acc-hdr:hover{background:var(--surface2);}
+  .acc-num{width:20px;height:20px;border-radius:50%;background:var(--accent-bg);border:1px solid var(--accent-bg2);display:flex;align-items:center;justify-content:center;font-family:var(--font-mono);font-size:9px;font-weight:700;color:var(--accent);flex-shrink:0;}
+  .acc-num.done{background:var(--green-bg);border-color:rgba(0,201,122,.3);color:var(--green);}
+  .acc-titles{flex:1;min-width:0;}
+  .acc-title{font-size:14px;font-weight:500;color:var(--text);}
+  .acc-summary{font-family:var(--font-mono);font-size:10px;color:var(--text-muted);margin-top:2px;white-space:nowrap;overflow:hidden;text-overflow:ellipsis;}
+  .acc-arr{font-family:var(--font-mono);font-size:14px;color:var(--text-hint);transition:transform .2s;flex-shrink:0;}
+  .acc-arr.open{transform:rotate(45deg);}
+  .acc-body{display:none;padding:14px 15px;border-top:1px solid var(--border);}
+  .acc-body.open{display:block;}
+  .acc-sep{height:1px;background:var(--border);margin:12px 0;}
+  .acc-lbl{font-family:var(--font-mono);font-size:8px;letter-spacing:.14em;text-transform:uppercase;color:var(--text-hint);margin-bottom:10px;display:block;}
+  .btn-save-run{width:100%;padding:14px;border:none;border-radius:var(--radius-md);font-family:var(--font-mono);font-size:12px;font-weight:700;letter-spacing:.06em;cursor:pointer;margin-top:4px;transition:all .2s;}
+  .btn-save-run.ready{background:var(--accent);color:#fff;}
+  .btn-save-run.not-ready{background:var(--surface2);color:var(--text-hint);border:1px solid var(--border-strong);}
+  .save-toast{font-family:var(--font-mono);font-size:10px;color:var(--text-hint);text-align:center;margin-top:6px;min-height:14px;}
 
   /* ── Misc ── */
   .empty-state{text-align:center;padding:4rem 1rem;color:var(--text-muted);}
@@ -517,6 +517,8 @@
 
       <!-- FORM CORSA -->
       <div id="log-form-run">
+
+        <!-- Sessione: data tipo ambiente meteo — sempre visibili -->
         <div class="form-grid" style="margin-bottom:0;">
           <div class="field"><label>Data</label><input type="date" id="f-date" oninput="checkRunSave()"/></div>
           <div class="field"><label>Tipo allenamento</label>
@@ -542,27 +544,30 @@
           </div>
         </div>
 
+        <!-- Selettore Base/Dettagliato — solo per intervalli -->
         <div class="iv-mode-selector" id="iv-mode-selector">
           <button class="iv-mode-btn active" id="iv-btn-base" onclick="setIvMode('base')">Base</button>
           <button class="iv-mode-btn" id="iv-btn-detail" onclick="setIvMode('detail')">Dettagliato</button>
         </div>
 
-        <!-- Form base -->
-        <div class="form-grid" id="run-base-form">
-          <div class="form-divider"><div class="form-divider-line"></div><span class="form-divider-label">Performance</span><div class="form-divider-line"></div></div>
-          <div class="field"><label>Distanza (km)</label><input type="number" id="f-run-dist" step="0.1" min="0" placeholder="8.5" inputmode="decimal" oninput="checkRunSave()"/></div>
-          <div class="field"><label>Durata (min)</label><input type="number" id="f-run-dur" step="1" min="0" placeholder="52" inputmode="numeric" oninput="checkRunSave()"/></div>
-          <div class="field"><label>FC media (bpm)</label>
-            <input type="number" id="f-run-hr" step="1" min="0" placeholder="142" inputmode="numeric" oninput="updateZoneHint(this.value,'run-hr-zone-hint')"/>
-            <span class="hint" id="run-hr-zone-hint">&#8212;</span>
+        <!-- Form base (z2/threshold/long + intervalli base) -->
+        <div id="run-base-form">
+          <div class="form-grid">
+            <div class="form-divider"><div class="form-divider-line"></div><span class="form-divider-label">Performance</span><div class="form-divider-line"></div></div>
+            <div class="field"><label>Distanza (km)</label><input type="number" id="f-run-dist" step="0.1" min="0" placeholder="8.5" inputmode="decimal" oninput="checkRunSave()"/></div>
+            <div class="field"><label>Durata (min)</label><input type="number" id="f-run-dur" step="1" min="0" placeholder="52" inputmode="numeric" oninput="checkRunSave()"/></div>
+            <div class="field"><label>FC media (bpm)</label>
+              <input type="number" id="f-run-hr" step="1" min="0" placeholder="142" inputmode="numeric" oninput="updateZoneHint(this.value,'run-hr-zone-hint')"/>
+              <span class="hint" id="run-hr-zone-hint">&#8212;</span>
+            </div>
+            <div class="field"><label>FC max sessione</label><input type="number" id="f-run-hrmax" step="1" min="0" placeholder="162" inputmode="numeric"/></div>
+            <div class="field"><label>SPM medi</label>
+              <input type="number" id="f-run-spm" step="1" min="0" placeholder="168" inputmode="numeric"/>
+              <span class="hint">Target: 170&#8211;180 spm</span>
+            </div>
+            <div class="field"><label>RPE (1&#8211;10)</label><input type="number" id="f-run-rpe" step="1" min="1" max="10" placeholder="6" inputmode="numeric"/></div>
+            <div class="field full"><label>Note</label><textarea id="f-run-notes" placeholder="Sensazioni, dolori, osservazioni..."></textarea></div>
           </div>
-          <div class="field"><label>FC max sessione</label><input type="number" id="f-run-hrmax" step="1" min="0" placeholder="162" inputmode="numeric"/></div>
-          <div class="field"><label>SPM medi</label>
-            <input type="number" id="f-run-spm" step="1" min="0" placeholder="168" inputmode="numeric"/>
-            <span class="hint">Target: 170&#8211;180 spm</span>
-          </div>
-          <div class="field"><label>RPE (1&#8211;10)</label><input type="number" id="f-run-rpe" step="1" min="1" max="10" placeholder="6" inputmode="numeric"/></div>
-          <div class="field full"><label>Note</label><textarea id="f-run-notes" placeholder="Sensazioni, dolori, osservazioni..."></textarea></div>
         </div>
 
         <!-- Form dettagliato intervalli — accordion -->
@@ -1041,8 +1046,8 @@ function updateIvVisibility(){
   const t=document.getElementById('f-run-type').value;
   const blk=document.getElementById('interval-form-block');
   const sel=document.getElementById('iv-mode-selector');
-  if(t==='interval'){blk.classList.add('visible');sel.classList.add('visible');}
-  else{blk.classList.remove('visible');sel.classList.remove('visible');setIvMode('base');}
+  if(t==='interval'){blk.style.display='block';sel.classList.add('visible');}
+  else{blk.style.display='none';sel.classList.remove('visible');setIvMode('base');}
 }
 document.getElementById('f-run-type').addEventListener('change',updateIvVisibility);
 
@@ -1110,7 +1115,7 @@ window.onIvRecapChange=function(){
   document.getElementById('iv-recap-body').innerHTML=html;
 };
 
-/* -- Accordion -- */
+/* -- Accordion & Save -- */
 window.accToggle=function(id){
   const body=document.getElementById('acc-body-'+id);
   const arr=document.getElementById('acc-arr-'+id);
@@ -1120,12 +1125,12 @@ window.accToggle=function(id){
 };
 window.accSummaries=function(){
   const g=id=>document.getElementById(id);
-  const wuDur=g('f-wu-dur')?.value;
-  if(g('acc-sum-wu')){if(wuDur){g('acc-sum-wu').textContent=(wuMode==='run'?'Corsa':'Cammino')+' · '+wuDur+' min';g('acc-num-wu')?.classList.add('done');}else{g('acc-sum-wu').textContent='—';g('acc-num-wu')?.classList.remove('done');}}
-  const reps=g('f-iv-reps')?.value,rdur=g('f-iv-rep-dur')?.value;
-  if(g('acc-sum-iv')){if(reps&&rdur){const grid=g('rep-grid');const ds=grid?[...grid.querySelectorAll('input')].map(i=>parseFloat(i.value)||0).filter(d=>d>0):[];const dstr=ds.length?' · '+ds.map(d=>d.toFixed(1)).join(' / '):'';g('acc-sum-iv').textContent=reps+' × '+rdur+"'"+dstr;g('acc-num-iv')?.classList.add('done');}else{g('acc-sum-iv').textContent='—';g('acc-num-iv')?.classList.remove('done');}}
-  const cdDur=g('f-cd-dur')?.value;
-  if(g('acc-sum-cd')){if(cdDur){g('acc-sum-cd').textContent=(cdMode==='run'?'Corsa':'Cammino')+' · '+cdDur+' min';g('acc-num-cd')?.classList.add('done');}else{g('acc-sum-cd').textContent='—';g('acc-num-cd')?.classList.remove('done');}}
+  const wu=g('f-wu-dur')?.value;
+  if(g('acc-sum-wu')){if(wu){g('acc-sum-wu').textContent=(wuMode==='run'?'Corsa':'Cammino')+' · '+wu+' min';g('acc-num-wu')?.classList.add('done');}else{g('acc-sum-wu').textContent='—';g('acc-num-wu')?.classList.remove('done');}}
+  const rp=g('f-iv-reps')?.value,rd=g('f-iv-rep-dur')?.value;
+  if(g('acc-sum-iv')){if(rp&&rd){const gr=g('rep-grid');const ds=gr?[...gr.querySelectorAll('input')].map(i=>parseFloat(i.value)||0).filter(d=>d>0):[];const ds2=ds.length?' · '+ds.map(d=>d.toFixed(1)).join('/'):'';g('acc-sum-iv').textContent=rp+' × '+rd+"'"+ds2;g('acc-num-iv')?.classList.add('done');}else{g('acc-sum-iv').textContent='—';g('acc-num-iv')?.classList.remove('done');}}
+  const cd=g('f-cd-dur')?.value;
+  if(g('acc-sum-cd')){if(cd){g('acc-sum-cd').textContent=(cdMode==='run'?'Corsa':'Cammino')+' · '+cd+' min';g('acc-num-cd')?.classList.add('done');}else{g('acc-sum-cd').textContent='—';g('acc-num-cd')?.classList.remove('done');}}
   const hr=g('f-iv-hr')?.value,spm=g('f-iv-spm')?.value;
   if(g('acc-sum-fis')){const p=[];if(hr)p.push(hr+' bpm');if(spm)p.push(spm+' spm');g('acc-sum-fis').textContent=p.length?p.join(' · '):'—';}
 };
@@ -1247,14 +1252,14 @@ function resetForm(sport){
     ['f-run-dist','f-run-dur','f-run-hr','f-run-hrmax','f-run-spm','f-run-rpe','f-run-notes'].forEach(id=>{const el=document.getElementById(id);if(el)el.value='';});
     ['f-iv-reps','f-iv-rep-dur','f-iv-rec-dur','f-wu-dur','f-wu-dist','f-cd-dur','f-cd-dist','f-iv-hr','f-iv-hrmax','f-iv-spm','f-iv-rpe','f-iv-notes'].forEach(id=>{const el=document.getElementById(id);if(el)el.value=''});
     document.getElementById('rep-grid').innerHTML='';document.getElementById('rep-grid-hdr').style.display='none';
-    document.getElementById('iv-summary-pill')&&(document.getElementById('iv-summary-pill').textContent='Inserisci ripetute e durata');
+    if(document.getElementById('iv-summary-pill'))document.getElementById('iv-summary-pill').textContent='Inserisci ripetute e durata';
     ['acc-body-wu','acc-body-iv','acc-body-cd','acc-body-fis'].forEach(id=>{const e=document.getElementById(id);if(e)e.classList.remove('open');});
     ['acc-arr-wu','acc-arr-iv','acc-arr-cd','acc-arr-fis'].forEach(id=>{const e=document.getElementById(id);if(e){e.classList.remove('open');e.textContent='+';}});
     ['acc-num-wu','acc-num-iv','acc-num-cd'].forEach(id=>{const e=document.getElementById(id);if(e)e.classList.remove('done');});
     ['acc-sum-wu','acc-sum-iv','acc-sum-cd','acc-sum-fis'].forEach(id=>{const e=document.getElementById(id);if(e)e.textContent='—';});
-    
+    document.getElementById('iv-recap').style.display='none';
     document.getElementById('iv-rec-count').textContent='0';
-    const _iv=document.getElementById('interval-form-block');if(_iv)_iv.style.display='none';
+    const _ivblk=document.getElementById('interval-form-block');if(_ivblk)_ivblk.style.display='none';
     document.getElementById('iv-mode-selector').classList.remove('visible');
     wuMode='run';cdMode='walk';ivMode='base';setIvMode('base');setWuMode('run');setCdMode('walk');
     document.getElementById('f-run-cond').value='';document.getElementById('f-run-type').value='z2';document.getElementById('f-date').value=today();
