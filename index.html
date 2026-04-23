@@ -1058,8 +1058,8 @@ window.onIvStructChange=function(){
   document.getElementById('iv-rec-count').textContent=recCount;
   const hdr=document.getElementById('rep-grid-hdr');
   const grid=document.getElementById('rep-grid');
-  if(!reps||!repDur){document.getElementById('iv-summary-pill').textContent='Inserisci ripetute e durata';hdr.style.display='none';grid.innerHTML='';onIvRecapChange();return;}
-  document.getElementById('iv-summary-pill').textContent=`${reps} × ${repDur}' — ${(reps*repDur).toFixed(0)} min di lavoro`;
+  if(!reps||!repDur){hdr.style.display='none';grid.innerHTML='';onIvRecapChange();return;}
+  
   hdr.style.display='flex';
   if(grid.querySelectorAll('.rep-cell').length!==reps){
     grid.innerHTML='';
@@ -1089,8 +1089,8 @@ window.onIvRecapChange=function(){
   const cdDur=parseFloat(document.getElementById('f-cd-dur').value)||0;
   const _cdDist=parseFloat(document.getElementById('f-cd-dist').value)||0;
   const cdDist=_cdDist<99?_cdDist:0;
-  const recapEl=document.getElementById('iv-recap');
-  if(!reps||!repDur){recapEl.style.display='none';return;}
+  const recapEl=document.getElementById('iv-recap-body');
+  if(!reps||!repDur){if(recapEl)recapEl.innerHTML='';return;}
   let repDistTotal=0;
   for(let i=1;i<=reps;i++){repDistTotal+=parseFloat(document.getElementById('f-rep-'+i)?.value)||0;}
   const totalWorkMin=reps*repDur;
@@ -1102,7 +1102,7 @@ window.onIvRecapChange=function(){
   const runKm=wuRunKm+repDistTotal+cdRunKm;
   let avgPaceStr='—';
   if(repDistTotal>0&&totalWorkMin>0){avgPaceStr=fmtPace((totalWorkMin/repDistTotal)*60)+' /km';}
-  recapEl.style.display='block';
+  if(!recapEl)return;
   let html='';
   html+=`<div class="iv-recap-row"><span class="iv-recap-key">${wuMode==='run'?'&#x1F3C3;':'&#x1F6B6;'} Warm-up</span><span class="iv-recap-val ${wuMode==='run'?'run':'muted'}">${wuDist?wuDist.toFixed(1)+' km · ':''}${wuDur||'—'} min</span></div>`;
   html+=`<div class="iv-recap-row"><span class="iv-recap-key">&#x26A1; Lavoro</span><span class="iv-recap-val iv">${repDistTotal>0?repDistTotal.toFixed(2)+' km · ':''}${totalWorkMin} min</span></div>`;
@@ -1252,12 +1252,12 @@ function resetForm(sport){
     ['f-run-dist','f-run-dur','f-run-hr','f-run-hrmax','f-run-spm','f-run-rpe','f-run-notes'].forEach(id=>{const el=document.getElementById(id);if(el)el.value='';});
     ['f-iv-reps','f-iv-rep-dur','f-iv-rec-dur','f-wu-dur','f-wu-dist','f-cd-dur','f-cd-dist','f-iv-hr','f-iv-hrmax','f-iv-spm','f-iv-rpe','f-iv-notes'].forEach(id=>{const el=document.getElementById(id);if(el)el.value=''});
     document.getElementById('rep-grid').innerHTML='';document.getElementById('rep-grid-hdr').style.display='none';
-    if(document.getElementById('iv-summary-pill'))document.getElementById('iv-summary-pill').textContent='Inserisci ripetute e durata';
+
     ['acc-body-wu','acc-body-iv','acc-body-cd','acc-body-fis'].forEach(id=>{const e=document.getElementById(id);if(e)e.classList.remove('open');});
     ['acc-arr-wu','acc-arr-iv','acc-arr-cd','acc-arr-fis'].forEach(id=>{const e=document.getElementById(id);if(e){e.classList.remove('open');e.textContent='+';}});
     ['acc-num-wu','acc-num-iv','acc-num-cd'].forEach(id=>{const e=document.getElementById(id);if(e)e.classList.remove('done');});
     ['acc-sum-wu','acc-sum-iv','acc-sum-cd','acc-sum-fis'].forEach(id=>{const e=document.getElementById(id);if(e)e.textContent='—';});
-    document.getElementById('iv-recap').style.display='none';
+    const _rc=document.getElementById('iv-recap-body');if(_rc)_rc.innerHTML='';
     document.getElementById('iv-rec-count').textContent='0';
     const _ivblk=document.getElementById('interval-form-block');if(_ivblk)_ivblk.style.display='none';
     document.getElementById('iv-mode-selector').classList.remove('visible');
